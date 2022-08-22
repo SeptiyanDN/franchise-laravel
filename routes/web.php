@@ -1,7 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BerandaController;
+use App\Http\Controllers\SuperAdminDashboardController;
+use App\Http\Controllers\AdminDashboardController;
+use App\Http\Controllers\PemilikBisnisDashboardController;
+use App\Http\Controllers\SupervisorBisnisDashboardController;
+use App\Http\Controllers\KasirBisnisDashboardController;
 use App\Http\Controllers\PemilikBisnisController;
 use App\Models\PemilikBisnis;
 use Illuminate\Support\Facades\Route;
@@ -34,12 +38,29 @@ Route::controller(AuthController::class)->group(function(){
 
 Route::group(['middleware'=> ['auth']],function(){
     Route::group(['middleware' => ['cekUserLogin:1']], function() {
-        Route::get('/',[BerandaController::class,'index']);
-        Route::get('/pemilik-bisnis',[PemilikBisnisController::class,'index']);
+        Route::get('/superadmin',[SuperAdminDashboardController::class,'index']);
+        Route::get('/superadmin/daftar-pemilik-bisnis',[PemilikBisnisController::class,'index']);
+    });
+
+    Route::group(['middleware' => ['cekUserLogin:2']], function() {
+        Route::get('/admin',[AdminDashboardController::class,'index']);
+        Route::get('/admin/daftar-pemilik-bisnis',[PemilikBisnisController::class,'index']);
 
     });
 
     Route::group(['middleware' => ['cekUserLogin:3']], function() {
+        Route::get('/pemilik',[PemilikBisnisDashboardController::class,'index']);
+    });
+
+    Route::group(['middleware' => ['cekUserLogin:4']], function() {
+        Route::get('/supervisor',[SupervisorBisnisDashboardController::class,'index']);
+    });
+
+    Route::group(['middleware' => ['cekUserLogin:5']], function() {
+        Route::get('/kasir',[KasirBisnisDashboardController::class,'index']);
+    });
+
+    Route::group(['middleware' => ['cekUserLogin:2']], function() {
         Route::get('/dashboard-pemilik-bisnis',[PemilikBisnisController::class,'index']);
     });
 });

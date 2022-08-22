@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\PemilikBisnis;
+use Illuminate\Http\Request;
 
 class PemilikBisnisController extends Controller
 {
@@ -14,8 +14,8 @@ class PemilikBisnisController extends Controller
      */
     public function index()
     {
-        return view('pemilikbisnis.dashboard.index');
-
+        $pemilikbisnis = PemilikBisnis::all();
+        return view ('superadmin.masterdata.daftarpemilikbisnis.index', compact('pemilikbisnis'));
     }
 
     /**

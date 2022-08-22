@@ -27,13 +27,18 @@
             <li>
                 <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Master Data</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li><a href="/pemilik-bisnis"><i class="fa fa-diamond"></i>Management Pemilik</a></li>
+                    @if (Auth::user()->role->nama == 'Super Admin')
+                    <li><a href="/superadmin/daftar-pemilik-bisnis">Pemilik Bisnis</a></li>
+                    @elseif(Auth::user()->role->nama == 'Admin')
+                    <li><a href="/admin/daftar-pemilik-bisnis">Pemilik Bisnis</a></li>
+                    @endif
+
                 </ul>
             </li>
             <li>
                 <a href="/"><i class="fa fa-diamond"></i> <span class="nav-label">Layouts</span></a>
             </li>
-            
+
         </ul>
 
     </div>

@@ -26,10 +26,16 @@ class AuthController extends Controller
             $request->session()->regenerate();
             $user = Auth::user();
             if ($user->role_id == 1) {
-                return redirect()->intended('/');
-            } elseif($user-> role_id == 3) {
-                return redirect()->intended('/dashboard-pemilik-bisnis');
-            }
+                return redirect()->intended('/superadmin');
+            } else if($user-> role_id == 2) {
+                return redirect()->intended('/admin');
+            } else if($user -> role_id == 3) {
+                return redirect()->intended('/pemilik');
+            } else if($user -> role_id == 4) {
+                return redirect() -> intended ('/supervisor');
+            } else if ($user -> role_id == 5) {
+                return redirect() -> intended ('/kasir');
+            } 
             return redirect()->intended('/');
         };
 

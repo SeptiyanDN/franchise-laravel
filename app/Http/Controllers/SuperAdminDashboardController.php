@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class BerandaController extends Controller
+class SuperAdminDashboardController extends Controller
 {
     public function index() {
-        return view('admin.dashboard.index');
+        return view('superadmin.dashboard.index');
     }
 }

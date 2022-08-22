@@ -1,6 +1,6 @@
 @extends('layouts.master')
 @section('title')
-Management Pemilik
+Management Pemilik Bisnis
 @endsection
 
 @section('content')
@@ -32,7 +32,7 @@ Management Pemilik
                         </thead>
                         <tbody>
                             @foreach ($pemilikbisnis as $pemilik )
-                                
+
                             <tr>
                                 {{-- looping td No menjadi increment 1+1 --}}
                                 <td>{{ $loop->iteration }}</td>
@@ -96,7 +96,9 @@ Management Pemilik
                 }
                 }
             ]
+
         });
+
     });
 
 </script>
