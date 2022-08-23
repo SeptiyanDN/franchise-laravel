@@ -36,6 +36,7 @@ Route::controller(AuthController::class)->group(function(){
     Route::get('/logout',[AuthController::class,'logout'])->middleware('auth');
 });
 
+
 Route::group(['middleware'=> ['auth']],function(){
     Route::group(['middleware' => ['cekUserLogin:1']], function() {
         Route::get('/superadmin',[SuperAdminDashboardController::class,'index']);

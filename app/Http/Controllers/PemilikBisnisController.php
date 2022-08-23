@@ -12,10 +12,21 @@ class PemilikBisnisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $pemilikbisnis = PemilikBisnis::all();
-        return view ('superadmin.masterdata.daftarpemilikbisnis.index', compact('pemilikbisnis'));
+        $cari = $request->query('cari'); 
+        if(!empty($cari)) {
+            $pemilikbisnis = PemilikBisnis::sortable()
+            ->where('pemilik_bisnis.nama_lengkap','like','%'.$cari.'%')
+            ->paginate(10)->onEachSide(2);
+        } else {
+            $pemilikbisnis = PemilikBisnis::sortable()->paginate(10);
+
+        }
+        return view ('module.masterdata.daftarpemilikbisnis.index')->with([
+            'pemilikbisnis' => $pemilikbisnis,
+            'cari' => $cari
+        ]);
     }
 
     /**
