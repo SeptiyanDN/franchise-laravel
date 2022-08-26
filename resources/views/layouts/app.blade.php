@@ -17,6 +17,9 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+
+        <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.css">
+
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -43,4 +46,5 @@
 
         @livewireScripts
     </body>
+    
 </html>

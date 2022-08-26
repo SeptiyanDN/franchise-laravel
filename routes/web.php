@@ -40,7 +40,9 @@ Route::controller(AuthController::class)->group(function(){
 Route::group(['middleware'=> ['auth']],function(){
     Route::group(['middleware' => ['cekUserLogin:1']], function() {
         Route::get('/superadmin',[SuperAdminDashboardController::class,'index']);
-        Route::get('/superadmin/daftar-pemilik-bisnis',[PemilikBisnisController::class,'index']);
+        Route::get('/superadmin/daftar-pemilik-bisnis',[PemilikBisnisController::class,'index'])->name('pemilik-bisnis');
+        Route::get('/superadmin/daftar-pemilik-bisnis/json',[PemilikBisnisController::class,'json'])->name('json');
+        Route::get('/superadmin/daftar-pemilik-bisnis/serverside',[PemilikBisnisController::class,'serverside']);
     });
 
     Route::group(['middleware' => ['cekUserLogin:2']], function() {

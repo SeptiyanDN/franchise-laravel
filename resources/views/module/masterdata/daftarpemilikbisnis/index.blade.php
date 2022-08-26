@@ -19,63 +19,18 @@ Management Pemilik Bisnis
             </div>
             <div class="ibox-content">
                 <div class="table-responsive">
-                    <form method="GET">
-                        <div class="form-group row">
-                            <label for="" class="col-sm-2 col-form-label btn btn-primary" >
-                                Cari Data
-                            </label>
-                            <div class="col-sm-10">
-                                <input type="text" name="cari" id="cari" class="form-control" placeholder="Cari Data Berdasarkan Nama Pemilik" autofocus="true" value="{{$cari}}" >
-                            </div>
-                        </div>
-                    </form>
-                    <table class="table table-striped table-bordered table-hover dataTables" >
+                    <table class="table table-striped table-bordered table-hover" id="datatables1">
                         <thead>
-                            <tr>
-                                <th style="width: 5%">No.</th>
-                                <th style="width: 10%;">@sortablelink('nomor_pemilik_bisnis', 'ID Pemilik')</th>
-                                <th>@sortablelink('nama_lengkap','Nama Pemilik')</th>
-                                <th>@sortablelink('alamat','Alamat')</th>
-                                <th>Handphone</th>
-                                <th style="width: 13%">@sortablelink('status_verifikasi','Status Verifikasi')</th>
-                                <th style="width: 10%">Aksi</th>
-                            </tr>
+                        <tr>
+                            <th stye="width: 80%">ID Pemilik</th>
+                            <th>Nama Lengkap</th>
+                            <th>Alamat</th>
+                            <th>Handphone</th>
+                            <th>Status Verifikasi</th>
+                            <th>Aksi</th>
+                        </tr>
                         </thead>
-                        <tbody>
-                            @php
-                                $nomor = 1 + (($pemilikbisnis -> currentPage() - 1) * $pemilikbisnis -> perPage());
-                            @endphp
-                            @foreach ($pemilikbisnis as $pemilik )
-
-                            <tr>
-                                {{-- looping td No menjadi increment 1+1 --}}
-                                <td>{{ $nomor++}}</td>
-                                <td>{{$pemilik->nomor_pemilik_bisnis}}
-                                <td>{{$pemilik->nama_lengkap}}</td>
-                                </td>
-                                <td>{{$pemilik->alamat}}</td>
-                                <td class="center">{{$pemilik->nomor_telepon }}</td>
-                                @if ($pemilik->status_verifikasi == 'Belum diverifikasi')
-                                <td class="center">
-                                    <span><a href="#" class="badge badge-danger">{{$pemilik->status_verifikasi}}</a></span>
-                                </td>
-                                @else
-                                <td class="center">
-                                    <span><a href="#" class="badge badge-success">{{$pemilik->status_verifikasi}}</a></span>
-                                </td>
-                                @endif
-                                <td>
-                                    <span><a href="#" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a></span>
-                                    <span><a href="#" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a></span>
-                                    <span><a href="#" class="btn btn-success btn-xs"><i class="fa fa-eye"></i></a></span>
-                                </td>
-                            </tr>
-                            @endforeach
-
-                        </tfoot>
-                    </table>
-                    {{-- {{$pemilikbisnis -> links()}} --}}
-                    {!! $pemilikbisnis->appends(Request::except('page'))->render() !!}
+                        </table>
                 </div>
             </div>
         </div>
@@ -85,5 +40,46 @@ Management Pemilik Bisnis
 
 @endsection
 @push('scripts')
- 
+
+<script type="text/javascript">
+          $(function(){
+            $('#datatables1').DataTable({
+                processing: true,
+                responsive: true,
+                serverSide : true,
+                ajax: {
+                    url: "{{route('json')}}"
+                },
+                columns: [
+                    {data :'nomor_pemilik_bisnis',name:'nomor_pemilik_bisnis'},
+                    {data :'nama_lengkap', name:'nama_lengkap'},
+                    {data :'alamat', name:'alamat'},
+                    {data :'nomor_telepon', name:'nomor_telepon'},
+                    {data :'status_verifikasi', name:'status_verifikasi'},
+                    {data :'aksi', name:'aksi'}
+                ],
+                dom: '<"html5buttons"B>lTfgitp',
+                buttons: [
+                    { extend: 'copy'},
+                    {extend: 'csv'},
+                    {extend: 'excel', title: 'ExampleFile'},
+                    {extend: 'pdf', title: 'ExampleFile'},
+
+                    {extend: 'print',
+                     customize: function (win){
+                            $(win.document.body).addClass('white-bg');
+                            $(win.document.body).css('font-size', '10px');
+
+                            $(win.document.body).find('table')
+                                    .addClass('compact')
+                                    .css('font-size', 'inherit');
+                    }
+                    }
+                ],
+
+            });
+          });
+
+</script>
+
 @endpush

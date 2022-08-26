@@ -21,7 +21,13 @@
             <li>
                 <a href="index.html"><i class="fa fa-th-large"></i> <span class="nav-label">Dashboards</span> <span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li><a href="/">Dashboard v.1</a></li>
+                    @if (Auth::user()->role->nama == 'Super Admin')
+                    <li><a href="/superadmin">Dashboard v.1</a></li>
+                    @elseif(Auth::user()->role->nama == 'Admin')
+                    <li><a href="/admin">Dashboard v.1</a></li>
+                    @else
+                    <li><a href="/{{Auth::user()->username}}">Dashboard v.1</a></li>
+                    @endif
                 </ul>
             </li>
             <li>

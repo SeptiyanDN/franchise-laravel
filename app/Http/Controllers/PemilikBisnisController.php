@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PemilikBisnis;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class PemilikBisnisController extends Controller
 {
@@ -12,22 +13,25 @@ class PemilikBisnisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
-    {
-        $cari = $request->query('cari'); 
-        if(!empty($cari)) {
-            $pemilikbisnis = PemilikBisnis::sortable()
-            ->where('pemilik_bisnis.nama_lengkap','like','%'.$cari.'%')
-            ->paginate(10)->onEachSide(2);
-        } else {
-            $pemilikbisnis = PemilikBisnis::sortable()->paginate(10);
+   
+    public function index(){
+        return view('module.masterdata.daftarpemilikbisnis.index');
 
-        }
-        return view ('module.masterdata.daftarpemilikbisnis.index')->with([
-            'pemilikbisnis' => $pemilikbisnis,
-            'cari' => $cari
-        ]);
     }
+
+    public function json() {
+        return Datatables::of(PemilikBisnis::limit(10))
+        ->addColumn('aksi', function($data){
+                     $button = "<span><a href='".$data->id."' class='edit btn-primary btn-xs' id='".$data->id."'><i class='fa fa-pencil'></i></a></span>";
+                     $button .= "<span><a href='".$data->id."' class='lihat btn-danger btn-xs' id='".$data->id."'><i class='fa fa-eye'></i></a></span>";
+                     $button .= "<span><a href='".$data->id."' class='hapus btn-success btn-xs' id='".$data->id."'><i class='fa fa-trash'></i></a></span>";
+                     return $button;
+                 })
+        ->rawColumns(['aksi'])
+        ->make(true);
+    }
+    
+
 
     /**
      * Show the form for creating a new resource.
